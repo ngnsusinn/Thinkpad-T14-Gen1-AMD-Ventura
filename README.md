@@ -113,6 +113,9 @@ OpenCore EFI cho **Lenovo ThinkPad T14 Gen 1 AMD** (Ryzen 4000 / Renoir) chạy 
 - `HideAuxiliary = true` — ẩn tool (bấm Space để hiện CleanNvram/ResetSystem)
 - `Debug Target = 3` — tắt ghi log file mỗi lần boot
 - Xoá tool không cần: BootKicker, ListPartitions, MmapDump, OpenShell
+- `ReleaseUsbOwnership = true` — giải phóng quyền điều khiển xHCI từ firmware BIOS theo chuẩn Dortania/Olarila cho laptop
+- Đã bật patch ACPI `HPET _CRS to XCRS` đồng bộ với `SSDT-HPET.aml`
+- Loại bỏ các thành phần thừa: `SSDT-PLUG-ALT.aml` (chỉ dành cho Intel gen 12+), `ThunderboltReset.kext` (không có Thunderbolt), `SMCProcessorAMD.kext` (trùng lặp với SMCAMDProcessor), `VoodooI2CSynaptics.kext` & các plugin input gây xung đột SMBus
 
 ## 🧩 Kexts & phiên bản
 
@@ -126,12 +129,13 @@ OpenCore EFI cho **Lenovo ThinkPad T14 Gen 1 AMD** (Ryzen 4000 / Renoir) chạy 
 | IntelBluetoothFirmware | 2.4.0 |
 | IntelBTPatcher | 2.4.0 |
 | BlueToolFixup | 2.7.2 |
-| NVMeFix, RealtekRTL8111, USBToolBox, UTBMap, VoodooPS2Controller, VoodooRMI, VoodooSMBus, VoodooI2C*, BrightnessKeys, ECEnabler, FeatureUnlock, SMCBatteryManager, SMCAMDProcessor, SMCProcessorAMD, SMCRadeonGPU, AMDRyzenCPUPowerManagement, AmdTscSync, AppleMCEReporterDisabler, HibernationFixup, ThunderboltReset, YogaSMCAlter | — |
+| RestrictEvents | 1.1.6 |
+| NVMeFix, RealtekRTL8111, USBToolBox, UTBMap, VoodooPS2Controller, VoodooRMI, VoodooSMBus, VoodooI2C, VoodooI2CHID, BrightnessKeys, ECEnabler, FeatureUnlock, SMCBatteryManager, SMCAMDProcessor, SMCRadeonGPU, AMDRyzenCPUPowerManagement, AmdTscSync, AppleMCEReporterDisabler, HibernationFixup, YogaSMCAlter | — |
 
 ## ⚙️ Boot-args
 
 ```
-keepsyms=1 alcid=101 serverperfmode=1 -btlfxnvramcheck
+keepsyms=1 alcid=101 serverperfmode=1 -btlfxnvramcheck -v revcpu=1 revcpuname="AMD Ryzen 5 PRO 4650U with Radeon Graphics" revpatch=cpuname,sbvmm
 ```
 
 ## ⚠️ Lưu ý
